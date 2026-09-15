@@ -1,0 +1,52 @@
+# Local editor / OS artifacts
+.history/
+.Rproj.user/
+.Rhistory
+.Rapp.history
+.DS_Store
+Thumbs.db
+*~
+
+# Logs and run-time temporaries
+*.log
+*.out
+*.err
+*.tmp
+*.nosex
+
+# R / MATLAB saved objects
+*.RData
+*.Rdata
+*.rdata
+*.RDS
+*.rds
+*.mat
+
+# Tabular data and results
+*.csv
+*.tsv
+*.xlsx
+*.txt.gz
+*.csv.gz
+*.tsv.gz
+*.bgz
+
+# Genotype / genomic data
+*.bed
+*.bim
+*.fam
+*.pgen
+*.pvar
+*.psam
+*.vcf
+*.vcf.gz
+*.bcf
+*.bgen
+*.sample
+
+# Output directories
+results/
+output/
+outputs/
+data/raw/
+data/processed/

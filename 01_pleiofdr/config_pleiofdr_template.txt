@@ -1,0 +1,126 @@
+# =============================================================================
+# pleioFDR configuration template
+#
+# Copy this file to "config_pleiofdr.txt" and edit the paths and trait files.
+# Values below are the settings used for the manuscript analysis.
+# =============================================================================
+
+# Reference file containing LDmat (sparse LD matrix), chrnumvec, posvec, mafvec,
+# is_ambiguous and is_intergenic (e.g. ref9545380_1kgPhase3eur_LDr2p1.mat,
+# distributed with pleioFDR). A full path may be given.
+reffile=path/to/reference/ref9545380_1kgPhase3eur_LDr2p1.mat
+
+# Folder containing the pleioFDR-format .mat trait files. It is also allowed to
+# leave 'traitfolder' empty and give full paths in 'traitfiles' below.
+traitfolder=path/to/pleiofdr_mat_traits/
+
+# ---------------------------- Primary trait (AD) -----------------------------
+# .mat file (within traitfolder) for the primary trait. Options used in the
+# manuscript: AD female, AD male and non-stratified AD, each built both with and
+# without UK Biobank.
+traitfile1=ad_female_zscore.mat
+traitname1=AD_female
+
+# --------------------------- Secondary traits --------------------------------
+# One entry per trait to condition on. Examples of the traits used in the
+# manuscript (use your own file names):
+#   age at menarche (23andMe-excluded release)      age_at_menarche_zscore.mat
+#   age at menopause (reprogen)                     age_at_menopause_zscore.mat
+#   age at voice breaking                           age_at_voice_breaking_zscore.mat
+#   bioavailable testosterone female                bioavailable_testosterone_female_zscore.mat
+#   bioavailable testosterone male                  bioavailable_testosterone_male_zscore.mat
+#   bioavailable testosterone all                   bioavailable_testosterone_all_zscore.mat
+#   estradiol male                                  estradiol_male_zscore.mat
+#   SHBG BMI-adjusted female                        shbg_bmi_adjusted_female_zscore.mat
+#   SHBG female                                     shbg_female_zscore.mat
+#   SHBG BMI-adjusted male                          shbg_bmi_adjusted_male_zscore.mat
+#   SHBG male                                       shbg_male_zscore.mat
+#   SHBG BMI-adjusted all                           shbg_bmi_adjusted_all_zscore.mat
+#   SHBG all                                        shbg_all_zscore.mat
+#   total testosterone female                       total_testosterone_female_zscore.mat
+#   total testosterone male                         total_testosterone_male_zscore.mat
+#   total testosterone all                          total_testosterone_all_zscore.mat
+#   hair colour (negative control), by colour and sex
+#                                                   hair_colour_<colour>_<sex>_zscore.mat
+traitfiles={'hormone_trait_zscore.mat','negative_control_trait_zscore.mat'}
+traitnames={'Hormone_trait','Negative_control'}
+
+# Folder containing the upstream pleioFDR MATLAB functions (pleioOpt.m,
+# TextConfig.m and the pleioFDR analysis functions). Not redistributed here.
+mlibrary=path/to/pleiofdr_matlab_functions/
+
+# Output directory
+outputdir=path/to/output/
+
+# stattype can be either conjfdr (conjunctional fdr) or condfdr (conditional fdr).
+# Recommended fdrthresh is 0.05 for conjfdr and 0.01 for condfdr.
+stattype=conjfdr
+fdrthresh=0.05
+
+# Random pruning options (on/off, number of iterations)
+randprune=true
+randprune_n=500
+
+# Exclusion regions in format [CHR BP_from BP_to], where CHR is the chromosome
+# and BP_from/BP_to are hg19 coordinates. Multiple regions are separated by ';'.
+# MHC, the chromosome 8 inversion region and the APOE region were excluded.
+exclude_chr_pos=[6 25119106 33854733; 8 7200000 12500000; 17 40000000 47000000]
+
+# Customisation for the Manhattan plot
+manh_fontsize_genenames=12
+manh_yspace=0.75
+manh_ymargin=0.5
+manh_colorlist=[1 0 0; 1 0.5 0 ; 0 0.75 0.75; 0 0.5 0; 0.75 0 0.75; 0 0 1; 0 1 0; 0 1 1]
+
+# Optional additional reference information (e.g. the pleioFDR 9545380.ref file)
+# with 'SNP', 'A1' and 'A2' columns.
+refinfo=
+
+# ================= Other miscellaneous options (expert usage only) ============
+
+# Force random prune indices (pruneidx) to be regenerated for each run.
+# Setting this to false preserves pruneidx across re-runs (unless MATLAB is
+# restarted or the workspace is cleared). Clear the MATLAB workspace whenever
+# ldmatfile or randprune_n change.
+reset_pruneidx=true
+
+# randprune_repeats selects one of three resampling options ('default', 'maxout', 'none')
+randprune_repeats=default
+
+# Threshold on Fisher's combined statistic (flp). SNPs with flp below this
+# threshold are not included in the resulting loci table. Set to 1 to disable.
+pthresh=1
+
+# Genomic correction options.
+# perform_gc turns genomic correction on or off.
+# use_standard_gc=true uses median genomic correction (standard in the literature),
+# use_standard_gc=false uses the more conservative in-house procedure.
+# randprune_gc=true computes the lambdaGC factor after random pruning.
+perform_gc=true
+use_standard_gc=false
+randprune_gc=true
+
+# By default the exclusion list (exclude_chr_pos) is applied when the cond/conj
+# FDR model is fit but not during discovery. Setting exclude_from_discovery=true
+# applies the exclusion list to the discovery step as well.
+exclude_from_discovery=true
+
+# Minor allele frequency threshold used to exclude rare SNPs. SNPs with unknown
+# MAF are also excluded (their LD structure is unknown, so random pruning cannot
+# be performed). mafthresh=nan would keep them, but this is not recommended.
+mafthresh = 0.005
+
+# Exclude ambiguous (A/T and C/G) SNPs from both the fit and the discovery step.
+exclude_ambiguous_snps = true
+
+# Show plots on screen (Manhattan plot, QQ plots, fold-enrichment plots and the
+# FDR lookup heatmap).
+onscreen = true
+
+# pleioFDR is p-value based and does not require effect direction. Setting
+# dummy_zscore=true forces z-scores to be computed from p-values (all positive)
+# when effect direction is unavailable.
+dummy_zscore = false
+
+# Exit MATLAB when the analysis completes.
+exit_matlab_upon_completion = false
